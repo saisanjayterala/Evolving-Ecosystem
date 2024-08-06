@@ -1,71 +1,198 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
+    color: #333;
 }
 
 #game-container {
     text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
 }
 
 #ecosystem-grid {
     display: grid;
-    grid-template-columns: repeat(10, 30px);
-    grid-template-rows: repeat(10, 30px);
-    gap: 1px;
-    background-color: #ccc;
-    border: 1px solid #999;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 2px;
+    background-color: #ecf0f1;
+    border: 2px solid #bdc3c7;
     margin: 20px auto;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .cell {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: #fff;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cell:hover {
+    transform: scale(1.1);
+    z-index: 1;
 }
 
 .plant {
-    background-color: #4CAF50;
+    background-color: #27ae60;
 }
 
 .herbivore {
-    background-color: #FFC107;
+    background-color: #f39c12;
     border-radius: 50%;
 }
 
 .predator {
-    background-color: #F44336;
+    background-color: #c0392b;
     border-radius: 50%;
 }
 
+.evolved {
+    border: 2px solid #8e44ad;
+}
+
 #weather-display {
-    margin: 10px 0;
+    margin: 15px 0;
     font-weight: bold;
+    font-size: 18px;
+    color: #2980b9;
 }
 
 #controls, #player-actions {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 button {
-    padding: 5px 10px;
-    margin: 0 5px;
+    padding: 10px 20px;
+    margin: 5px;
     font-size: 16px;
     cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
 }
 
 #stats {
     display: flex;
     justify-content: space-around;
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 5px;
 }
 
-.sunny { background-color: #FFEB3B; }
-.rainy { background-color: #2196F3; }
-.snowy { background-color: #ECEFF1; }
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.sunny { 
+    background-color: #ffeb3b;
+    background-image: linear-gradient(to bottom right, #ffeb3b, #ffc107);
+}
+
+.rainy { 
+    background-color: #2196f3;
+    background-image: linear-gradient(to bottom right, #2196f3, #03a9f4);
+}
+
+.snowy { 
+    background-color: #eceff1;
+    background-image: linear-gradient(to bottom right, #eceff1, #cfd8dc);
+}
+
+#evolution-display {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#evolution-display p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    #ecosystem-grid {
+        grid-template-columns: repeat(10, 30px);
+        grid-template-rows: repeat(10, 30px);
+    }
+
+    .cell {
+        width: 30px;
+        height: 30px;
+    }
+
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
