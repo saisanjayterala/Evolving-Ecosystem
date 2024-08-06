@@ -26,6 +26,7 @@ body {
     width: 30px;
     height: 30px;
     background-color: #fff;
+    cursor: pointer;
 }
 
 .plant {
@@ -47,7 +48,7 @@ body {
     font-weight: bold;
 }
 
-#controls {
+#controls, #player-actions {
     margin-bottom: 20px;
 }
 
@@ -65,15 +66,6 @@ button {
     margin: 0 auto;
 }
 
-/* Weather effects */
-.sunny {
-    background-color: #FFEB3B;
-}
-
-.rainy {
-    background-color: #2196F3;
-}
-
-.snowy {
-    background-color: #ECEFF1;
-}
+.sunny { background-color: #FFEB3B; }
+.rainy { background-color: #2196F3; }
+.snowy { background-color: #ECEFF1; }
