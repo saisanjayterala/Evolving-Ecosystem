@@ -2,6 +2,7 @@ const gridSize = 10;
 const grid = [];
 let plants = [];
 let herbivores = [];
+let predators = [];
 let isRunning = false;
 
 function initializeGrid() {
@@ -24,12 +25,14 @@ function addEntity(type, x, y) {
     if (x === undefined) x = Math.floor(Math.random() * gridSize);
     if (y === undefined) y = Math.floor(Math.random() * gridSize);
     
-    if (!grid[x][y].classList.contains('plant') && !grid[x][y].classList.contains('herbivore')) {
+    if (!grid[x][y].classList.contains('plant') && !grid[x][y].classList.contains('herbivore') && !grid[x][y].classList.contains('predator')) {
         grid[x][y].classList.add(type);
         if (type === 'plant') {
             plants.push({x, y, age: 0});
         } else if (type === 'herbivore') {
             herbivores.push({x, y, energy: 50});
+        } else if (type === 'predator') {
+            predators.push({x, y, energy: 75});
         }
     }
 }
@@ -40,12 +43,25 @@ function removeEntity(type, x, y) {
         plants = plants.filter(p => p.x !== x || p.y !== y);
     } else if (type === 'herbivore') {
         herbivores = herbivores.filter(h => h.x !== x || h.y !== y);
+    } else if (type === 'predator') {
+        predators = predators.filter(p => p.x !== x || p.y !== y);
     }
 }
 
 function updateStats() {
     document.getElementById('plant-count').textContent = plants.length;
     document.getElementById('herbivore-count').textContent = herbivores.length;
+    document.getElementById('predator-count').textContent = predators.length;
+}
+
+function moveEntity(entity, entityType) {
+    const newX = (entity.x + Math.floor(Math.random() * 3) - 1 + gridSize) % gridSize;
+    const newY = (entity.y + Math.floor(Math.random() * 3) - 1 + gridSize) % gridSize;
+    
+    removeEntity(entityType, entity.x, entity.y);
+    entity.x = newX;
+    entity.y = newY;
+    addEntity(entityType, entity.x, entity.y);
 }
 
 function simulateEcosystem() {
@@ -63,14 +79,7 @@ function simulateEcosystem() {
 
     // Herbivore movement and feeding
     herbivores.forEach(herbivore => {
-        const newX = (herbivore.x + Math.floor(Math.random() * 3) - 1 + gridSize) % gridSize;
-        const newY = (herbivore.y + Math.floor(Math.random() * 3) - 1 + gridSize) % gridSize;
-        
-        removeEntity('herbivore', herbivore.x, herbivore.y);
-        herbivore.x = newX;
-        herbivore.y = newY;
-        addEntity('herbivore', herbivore.x, herbivore.y);
-
+        moveEntity(herbivore, 'herbivore');
         herbivore.energy--;
 
         if (grid[herbivore.x][herbivore.y].classList.contains('plant')) {
@@ -83,6 +92,24 @@ function simulateEcosystem() {
 
         if (herbivore.energy <= 0) {
             removeEntity('herbivore', herbivore.x, herbivore.y);
+        }
+    });
+
+    // Predator movement and hunting
+    predators.forEach(predator => {
+        moveEntity(predator, 'predator');
+        predator.energy--;
+
+        if (grid[predator.x][predator.y].classList.contains('herbivore')) {
+            removeEntity('herbivore', predator.x, predator.y);
+            predator.energy += 30;
+            if (predator.energy > 120 && Math.random() < 0.2) {
+                addEntity('predator');
+            }
+        }
+
+        if (predator.energy <= 0) {
+            removeEntity('predator', predator.x, predator.y);
         }
     });
 
@@ -105,12 +132,16 @@ function resetSimulation() {
     isRunning = false;
     plants = [];
     herbivores = [];
+    predators = [];
     initializeGrid();
     for (let i = 0; i < 20; i++) {
         addEntity('plant');
     }
     for (let i = 0; i < 5; i++) {
         addEntity('herbivore');
+    }
+    for (let i = 0; i < 3; i++) {
+        addEntity('predator');
     }
     updateStats();
 }

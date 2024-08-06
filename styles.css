@@ -37,6 +37,11 @@ body {
     border-radius: 50%;
 }
 
+.predator {
+    background-color: #F44336;
+    border-radius: 50%;
+}
+
 #controls {
     margin-bottom: 20px;
 }
@@ -51,6 +56,6 @@ button {
 #stats {
     display: flex;
     justify-content: space-around;
-    max-width: 300px;
+    max-width: 400px;
     margin: 0 auto;
 }
