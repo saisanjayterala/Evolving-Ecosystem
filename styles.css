@@ -42,6 +42,11 @@ body {
     border-radius: 50%;
 }
 
+#weather-display {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
 #controls {
     margin-bottom: 20px;
 }
@@ -58,4 +63,17 @@ button {
     justify-content: space-around;
     max-width: 400px;
     margin: 0 auto;
+}
+
+/* Weather effects */
+.sunny {
+    background-color: #FFEB3B;
+}
+
+.rainy {
+    background-color: #2196F3;
+}
+
+.snowy {
+    background-color: #ECEFF1;
 }

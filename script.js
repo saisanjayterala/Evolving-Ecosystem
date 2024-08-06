@@ -4,6 +4,7 @@ let plants = [];
 let herbivores = [];
 let predators = [];
 let isRunning = false;
+let currentWeather = 'sunny';
 
 function initializeGrid() {
     const ecosystemGrid = document.getElementById('ecosystem-grid');
@@ -64,8 +65,56 @@ function moveEntity(entity, entityType) {
     addEntity(entityType, entity.x, entity.y);
 }
 
+function changeWeather() {
+    const weathers = ['sunny', 'rainy', 'snowy'];
+    currentWeather = weathers[Math.floor(Math.random() * weathers.length)];
+    document.getElementById('current-weather').textContent = currentWeather;
+    document.getElementById('ecosystem-grid').className = currentWeather;
+}
+
+function applyWeatherEffects() {
+    switch (currentWeather) {
+        case 'sunny':
+            plants.forEach(plant => {
+                if (Math.random() < 0.3) {
+                    plant.age++;
+                }
+            });
+            break;
+        case 'rainy':
+            plants.forEach(plant => {
+                if (Math.random() < 0.4) {
+                    const newX = (plant.x + Math.floor(Math.random() * 3) - 1 + gridSize) % gridSize;
+                    const newY = (plant.y + Math.floor(Math.random() * 3) - 1 + gridSize) % gridSize;
+                    addEntity('plant', newX, newY);
+                }
+            });
+            herbivores.forEach(herbivore => herbivore.energy -= 1);
+            predators.forEach(predator => predator.energy -= 1);
+            break;
+        case 'snowy':
+            plants = plants.filter(plant => {
+                if (Math.random() < 0.2) {
+                    removeEntity('plant', plant.x, plant.y);
+                    return false;
+                }
+                return true;
+            });
+            herbivores.forEach(herbivore => herbivore.energy -= 2);
+            predators.forEach(predator => predator.energy -= 2);
+            break;
+    }
+}
+
 function simulateEcosystem() {
     if (!isRunning) return;
+
+    // Change weather occasionally
+    if (Math.random() < 0.1) {
+        changeWeather();
+    }
+
+    applyWeatherEffects();
 
     // Plant growth
     plants.forEach(plant => {
@@ -143,6 +192,7 @@ function resetSimulation() {
     for (let i = 0; i < 3; i++) {
         addEntity('predator');
     }
+    changeWeather();
     updateStats();
 }
 
